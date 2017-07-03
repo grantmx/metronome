@@ -1,0 +1,606 @@
+@import "variables";
+@import "buttons";
+
+html {
+    overflow-x: hidden;
+    font-size: 62.5%;
+    -webkit-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
+}
+body {
+    margin: 0;
+    overflow-x: hidden;
+    line-height: 1.8;
+    font-family: "Lato",sans-serif;
+    background-color: #333;
+}
+
+/* ---------------------
+	Metronome Widget
+------------------------*/
+$red: #e74c3c;
+
+.metronome{
+	width: 100%;
+	max-width: 768px;
+	margin: 0 auto;
+	display: flex;
+	flex-wrap: wrap;
+
+	&--hide{
+		display: none !important;
+	}
+
+	&__row{
+		float: left;
+		position: relative;
+		padding: 10px;
+
+		&--noPad{
+			padding: 0 !important;
+		}
+
+		&--border{
+			border-bottom: 1px solid #555;
+		}
+
+		&--1-1{
+			@extend .metronome__row;
+			width: 100%;
+		}
+
+		&--1-2{
+			@extend .metronome__row;
+			width: 50%;
+		}	
+
+		&--1-3{
+			@extend .metronome__row;
+			width: 33.3333333333%;
+		}
+
+		&--1-4{
+			@extend .metronome__row;
+			width: 25%;
+		}
+
+		&--1-5{
+			@extend .metronome__row;
+			width: 20%;
+		}
+
+		&--1-6{
+			@extend .metronome__row;
+			width: 10 / 6 * 10%;
+		}
+
+		&--1-7{
+			@extend .metronome__row;
+			width: 10 / 7 * 10%;
+		}
+
+		&--1-8{
+			@extend .metronome__row;
+			width: 10 / 8 * 10%;
+		}
+
+		&--1-9{
+			@extend .metronome__row;
+			width: 10 / 9 * 10%;
+		}
+
+		&--1-10{
+			@extend .metronome__row;
+			width: 10%;
+		}
+
+		&--2-10{
+			@extend .metronome__row;
+			width: 20%;
+		}
+
+		&--6-10{
+			@extend .metronome__row;
+			width: 60%;
+		}
+
+		&--7-10{
+			@extend .metronome__row;
+			width: 70%;
+		}
+
+		@media only screen and (min-width: 650px) {
+			&--1-10-xl{ width: 10% }
+			&--7-10-xl{ width: 70% }
+		}
+	}
+
+	&__header{
+		text-align: center;
+		width: 100%;
+		float: left;
+		font-size: 4rem;
+		color: #fff;
+		font-weight: lighter;
+		line-height: 1;
+		text-transform: uppercase;
+		letter-spacing: 1px;
+
+		&--2{
+			@extend .metronome__header;
+			font-size: 3rem;
+			margin: 20px 0 10px 0;
+			color: #fff
+		}
+
+		&--3{
+			@extend .metronome__header;
+			font-size: 1.4rem;
+			margin: 10px 0;
+			color: #fff;
+
+			@media only screen and (max-width: 400px) {
+				font-size: 1.2rem;
+			}
+		}
+
+		&--4{
+			@extend .metronome__header;
+			font-size: 5rem;
+			margin: 0 0 10px 0;
+			color: #999
+		}
+	}
+
+	&__text{
+		font-size: 1.3rem;
+		color: #999;
+		text-align: center;
+		margin: 0 auto 20px auto;
+		width: 90%;
+
+		@media only screen and (min-width: 650px) {
+			width: 70%;
+		}
+
+		@media only screen and (max-width: 400px) {
+			width: 100%;
+			padding: 0 10px;
+		}
+	}
+
+	&__headerLabel{
+		font-size: 1.2rem;
+		color: #fff
+	}
+
+	&__pitchControlRow{
+		float: left;
+		width: 100%;
+		min-height: 100px;
+		padding: 0 10px 20px 0;
+
+		&--border{
+			@extend .metronome__row--border;
+		}
+	}
+
+	&__pitchErrorMsg{
+		font-size: 2.4rem;
+		color: #fff;
+		text-align: center;
+		font-weight: lighter;
+	}
+
+	&__pitchControlCheckbox{
+		position: static;
+		left: -9999px;
+		float: left;
+		visibility: hidden; // probably wont work in IE, but using for now
+
+		// &[type="checkbox"]:not(:checked) + label:before, &[type="checkbox"]:checked + label:before{
+		// 	content: "";
+		// 	position: absolute;
+		// 	left: 0;
+		// 	top: -1px;
+		// 	width: 22px;
+		// 	height: 22px;
+		// }
+
+		// active pitch control
+		&[type="checkbox"]:not(:checked) + label:after, &[type="checkbox"]:checked + label:after{
+			content: "";
+			display: inline-block;
+			width: 22px;
+			height: 22px;
+			border-radius: 50%;
+			background: #fff;
+			cursor: pointer;
+			position: relative;
+			box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.7);
+
+			// -webkit-animation: pulse 1.25s infinite cubic-bezier(0.66, 0, 0, 1);
+			//    -moz-animation: pulse 1.25s infinite cubic-bezier(0.66, 0, 0, 1);
+			//     -ms-animation: pulse 1.25s infinite cubic-bezier(0.66, 0, 0, 1);
+			//         animation: pulse 1.25s infinite cubic-bezier(0.66, 0, 0, 1);
+
+			&:hover {
+				animation: none;
+			}
+		}
+
+		&--animate[type="checkbox"]:not(:checked) + label:after, &--animate[type="checkbox"]:checked + label:after{
+			-webkit-animation: pulse .35s cubic-bezier(0.66, 0, 0, 1);
+			   -moz-animation: pulse .35s cubic-bezier(0.66, 0, 0, 1);
+			    -ms-animation: pulse .35s cubic-bezier(0.66, 0, 0, 1);
+			        animation: pulse .35s cubic-bezier(0.66, 0, 0, 1);
+		}
+
+		// accented pitch control
+		&[type="checkbox"]:checked + label:after{
+			background: $red;
+			box-shadow: 0 0 0 0 rgba(232, 76, 61, 0.7);
+		}
+	}
+
+
+	&__pitchControl{
+		text-align: center;
+		position: relative;
+		cursor: pointer;
+		float: left;
+		width: 100%;
+
+		// disabled pitch control
+		&--disabled:after{
+			background: #555 !important;
+			box-shadow: none !important;
+			// box-shadow: 0 0 0 0 rgba(85, 85, 85, 0.7) !important;
+		}
+	}
+
+		
+	&__play{
+		width: 0;
+		height: 0;
+		border-top: 30px solid transparent;
+		border-left: 50px solid #fff;
+		border-bottom: 30px solid transparent;
+		display: block;
+		text-align: center;
+	}
+
+	&__pause{
+		display: inline-block;
+		border-left: 10px solid #fff;
+		padding: 27px;
+		position: relative;
+
+		&::after{
+			content: "";
+			position: absolute;
+			height: 100%;
+			border-right: 10px solid #fff;
+			top: 0;
+		}
+	}
+
+	&__input{
+		padding: 15px 5px;
+		border-radius: 4px;
+		border: none;
+		width: 100%;
+		font-size: 2.4rem;
+		line-height: 1;
+		text-align: center;
+		color: #fff;
+		background-color: #444;
+		font-weight: lighter;
+
+		@media only screen and (max-width: 400px) {
+			font-size: 1.6rem
+		}
+
+		&[disabled]{
+			cursor: not-allowed;
+		}
+	}
+
+	&__inputRange{
+		-webkit-appearance: none;
+		width: 100%;
+		height: 54px;
+		background: #333;
+
+		&:focus{
+			outline: none
+		}
+
+		&::-webkit-slider-runnable-track {
+			width: 100%;
+			height: 5px;
+			cursor: pointer;
+			animate: 0.2s;
+			box-shadow: 0px 0px 0px #000000, 0px 0px 0px #0d0d0d;
+			background: #777;
+			border-radius: 5px;
+			border: 0px solid #000101;
+		}
+
+		&::-webkit-slider-thumb {
+			box-shadow: 0px 0px 0px #000000, 0px 0px 0px #0d0d0d;
+			border: 0px solid #000000;
+			height: 20px;
+			width: 20px;
+			border-radius: 10px;
+			background: #2980b9;
+			cursor: pointer;
+			-webkit-appearance: none;
+			margin-top: -8px;
+		}
+
+		&:focus::-webkit-slider-runnable-track {
+			background: #444;
+		}
+
+		&::-moz-range-track {
+			width: 100%;
+			height: 5px;
+			cursor: pointer;
+			animate: 0.2s;
+			box-shadow: 0px 0px 0px #000000, 0px 0px 0px #0d0d0d;
+			background: #777;
+			border-radius: 5px;
+			border: 0px solid #000101;
+		}
+
+		&::-moz-range-thumb {
+			box-shadow: 0px 0px 0px #000000, 0px 0px 0px #0d0d0d;
+			border: 0px solid #000000;
+			height: 20px;
+			width: 20px;
+			border-radius: 10px;
+			background: #2980b9;
+			cursor: pointer;
+			-webkit-appearance: none;
+			margin-top: -8px;
+		}
+
+		&::-ms-track {
+			width: 100%;
+			height: 5px;
+			cursor: pointer;
+			animate: 0.2s;
+			box-shadow: 0px 0px 0px #000000, 0px 0px 0px #0d0d0d;
+			background: #777;
+			border-radius: 5px;
+			background: transparent;
+			border-color: transparent;
+			border-width: 20px 0;
+			color: transparent;
+		}
+
+		&::-ms-fill-lower {
+			background: #777;
+			border: 0px solid #000101;
+			border-radius: 5px;
+			box-shadow: 0px 0px 0px #000000, 0px 0px 0px #0d0d0d;
+		}
+
+		&::-ms-fill-upper {
+			background: #777;
+			border: 0px solid #000101;
+			border-radius: 5px;
+			box-shadow: 0px 0px 0px #000000, 0px 0px 0px #0d0d0d;
+		}
+
+		&::-ms-thumb {
+			box-shadow: 0px 0px 0px #000000, 0px 0px 0px #0d0d0d;
+			border: 0px solid #000000;
+			height: 20px;
+			width: 20px;
+			border-radius: 10px;
+			background: #2980b9;
+			cursor: pointer;
+		}
+
+		&:focus::-ms-fill-lower {
+			background: #777;
+		}
+		&:focus::-ms-fill-upper {
+			background: #777;
+		}
+
+	}
+
+	&__label{
+		color: #fff;
+		width: 100%;
+		text-align: center;
+		font-size: 1.2rem;
+		display: block;
+		font-weight: lighter;
+		text-transform: uppercase;
+
+		@media only screen and (max-width: 400px) {
+			font-size: 0.9rem;
+		}
+	}
+
+	&__timeSignatureSpacer{
+		width: 100%;
+		border: 0;
+		height: 1px;
+		background: #999;
+		margin: 20px 0;
+	}
+
+
+	&__timeSignature{
+		text-align: center;
+		font-size: 7rem;
+		display: block;
+		line-height: .9;
+		color: $red;
+		font-weight: lighter;
+	}
+
+	&__noteLink{
+		display: block;
+		text-align: center;
+		margin: 0 auto;
+	}
+
+	&__noteLink--active{
+		background-color: #2b2b2b;
+		border-radius: 4px;
+		width: 100%;
+		box-shadow: 1px 3px 0px 1px #222 inset;
+
+		
+	}
+
+	&__note{
+		height: 100px;
+		padding: 25px 0;
+
+		@media only screen and (max-width: 400px) {
+			height: 90px;
+			padding: 30px 0;
+		}
+	}
+
+	&__tempoMark{
+		font-size: 1.4rem;
+		text-align: center;
+		color: #ccc;
+		padding: 0 0 10px 0;
+    	margin: 10px 0;
+		font-style: italic;
+		line-height: 1;
+		width: 100%;
+		text-transform: uppercase;
+	}
+
+
+	&__tempoList{
+		list-style-type: none;
+		margin: 0;
+		padding: 0;
+		text-align: center;
+		min-height: 60px;
+	}
+
+
+	&__tempoItem{
+		display: inline-block;
+		color: #777;
+		font-size: 3rem;
+		margin-right: 40px;
+
+		@media only screen and (max-width: 400px) {
+			margin-right: 20px;
+		}
+
+		&:last-of-type{
+			margin-right: 0;
+		}
+
+		&--active{
+			color: #fff
+		}
+	}
+
+
+	&__tempoItemLabel{
+		font-size: 0.6rem;
+		margin-left: 3px;
+	}
+
+
+	&__praticeBtnCntr{
+		text-align: center;
+	}
+
+
+	&__bpmRefreshCntr{
+		text-align: center;
+		margin: 0;
+	}
+
+	&__bpmRefresh{
+		color: $brand-info;
+		text-transform: uppercase;
+		font-size: 1.1rem;
+		text-decoration: none;
+		position: relative;
+		padding-left: 30px;
+	}
+
+	&__bpmRefreshIcon{
+		fill: $brand-info;
+		position: absolute;
+		height: 12px;
+		left: 0;
+		top: 0px;
+	}
+}
+
+
+[data-tip] {
+	position:relative;
+}
+[data-tip]:before {
+	content:'';
+	/* hides the tooltip when not hovered */
+	display:none;
+	content:'';
+	border-left: 5px solid transparent;
+	border-right: 5px solid transparent;
+	border-bottom: 5px solid #1a1a1a;	
+	position:absolute;
+	top:30px;
+	left:35px;
+	z-index:8;
+	font-size:0;
+	line-height:0;
+	width:0;
+	height:0;
+}
+[data-tip]:after {
+	display:none;
+	content:attr(data-tip);
+	position:absolute;
+	top:35px;
+	left:0px;
+	padding:5px 8px;
+	background:#1a1a1a;
+	color:#fff;
+	z-index:9;
+	font-size: 0.75em;
+	height:18px;
+	line-height:18px;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+	white-space:nowrap;
+	word-wrap:normal;
+}
+[data-tip]:hover:before,
+[data-tip]:hover:after {
+	display:block;
+}
+
+
+@-webkit-keyframes pulse {to {box-shadow: 0 0 0 25px rgba(232, 76, 61, 0);}}
+@-moz-keyframes pulse {to {box-shadow: 0 0 0 25px rgba(232, 76, 61, 0);}}
+@-ms-keyframes pulse {to {box-shadow: 0 0 0 25px rgba(232, 76, 61, 0);}}
+@keyframes pulse {to {box-shadow: 0 0 0 25px rgba(232, 76, 61, 0);}}
+
+
+
+.metronome *, .metronome *:after, .metronome *:before {
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}

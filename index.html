@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="metronome">
+
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Metronome</title>
+<meta name="description" content="" />
+<meta name="author" content="" />
+
+<!-- <link href="https://fonts.googleapis.com/css?family=Lato:100,300" rel="stylesheet"> -->
+<link href="styles/metronome.min.css" rel="stylesheet">
+
+<script src="scripts/metronome.min.js"></script>
+</head>
+<body>
+
+	<form class="metronome" ng-controller="MetronomeCntrl as metro">
+		<h1 class="metronome__header">Metronome</h1>
+		<div class="metronome__row metronome__row--1-1 metronome__row--border metronome__row--noPad">
+			<play-pause type="simpleButton"></play-pause>
+			<div class="metronome__row--6-10 metronome__row--7-10-xl">
+				<input type="range" name="range" min="50" max="300" step="1" ng-change="metro.updateTempo()" ng-model="metro.settings.beatsperminute" class="metronome__inputRange">
+			</div>
+			<div class="metronome__row--2-10">
+				<input type="number" id="bpm" ng-model="metro.settings.beatsperminute" ng-model-options="{ updateOn: 'blur' }" ng-change="metro.updateTempo()" name="" class="metronome__input">
+				<label class="metronome__label" for="bpm">BPM</label>
+			</div>
+		</div>
+
+		<div class="metronome__row metronome__row--1-1 metronome__row--noPad">
+			<p class="metronome__tempoMark metronome__row--border">{{metro.settings.tempoMark}}</p>
+			<div class="metronome__row metronome__row--1-1 metronome__row--border">
+				<h2 class="metronome__header--4">
+					<span class="metronome__headerLabel">Bar</span> {{metro.timeTracker.bar}}.{{metro.timeTracker.beat}} <span class="metronome__headerLabel">Beat</span>
+				</h2>
+			</div>
+			
+			<div class="metronome__pitchControlRow metronome__pitchControlRow--border" id="pitchControlContainer">
+				<p ng-hide="metro.pitchControlErrorMsg" class="metronome__pitchErrorMsg">The time-numerator must be 1 or greater, but no more than 20.</p>
+				
+				<div ng-class="metro.pitchControlClass()" class="metronome__pitchControlCntr" ng-repeat="items in metro.pitchControlItems">
+					<pitch-control id="{{$index}}" state="{{::items.state}}"></pitch-control>
+				</div>
+			</div>
+		</div>
+
+		<div class="metronome__row metronome__row--1-1 metronome__row--border metronome__row--noPad" id="subDivisionCntr">
+			<div class="metronome__row--1-1">
+				<div class="metronome__row--1-2 metronome__row--noPad"><h3 class="metronome__header--3">Beat Subdivision</h3></div>
+				<div class="metronome__row--1-2 metronome__row--noPad"><h3 class="metronome__header--3">Time Signature</h3></div>
+			</div>
+			
+			<div class="metronome__row--1-2">
+				<div class="metronome__row--1-2 metronome__row--noPad">
+					<subdivision-notes src="assets/Figure_rythmique_noire_hampe_haut.svg" division="1" active="metronome__noteLink--active"></subdivision-notes>
+					<subdivision-notes src="assets/Figure_rythmique_deux_croches_lien_haut.svg" division="2"></subdivision-notes>
+				</div>
+
+				<div class="metronome__row--1-2 metronome__row--noPad">
+					<subdivision-notes src="assets/Figure_rythmique_trois_croches_lien_haut.svg" division="3"></subdivision-notes>
+					<subdivision-notes src="assets/quarter-note.svg" division="4"></subdivision-notes>
+				</div>
+			</div>
+
+			<div class="metronome__row--1-2">
+				<input type="text" id="" ng-change="metro.createPitchControls()" ng-model="metro.settings.timeNumerator" name="timeSignature" class="metronome__input metronome__timeSignature">
+				<hr class="metronome__timeSignatureSpacer">
+				<span class="metronome__timeSignature">4</span>
+			</div>
+		</div>
+
+
+		<div class="metronome__row metronome__row--1-1">
+		
+			<h2 class="metronome__header--2">Practice Assistant</h2>
+			<p class="metronome__text">Add how many tempos you want, indicate the time interval when you'd like your tempo to change, and specify your BPM interval spread.</p>
+
+			<div class="metronome__row--1-1">
+				<div class="metronome__row--1-4">
+					<label class="metronome__label" for="bpmInterval">Starting BPM</label>
+					<input type="number" id="bpm" ng-model-options="{ updateOn: 'blur' }" ng-model="metro.settings.beatsperminute" ng-change="metro.updateTempo()" name="" class="metronome__input">
+				</div>
+				<div class="metronome__row--1-4">
+					<label class="metronome__label" for="tempos">Tempos</label>
+					<input type="tel" class="metronome__input" ng-change="metro.createPraticeTempos()" id="tempos" ng-model="metro.practice.tempos">
+				</div>
+				<div class="metronome__row--1-4">
+					<label class="metronome__label" for="interval">Interval</label>
+					<count-down-interval></count-down-interval>
+				</div>
+				<div class="metronome__row--1-4">
+					<label class="metronome__label" for="bpmInterval">BPM Interval</label>
+					<input type="tel" class="metronome__input" id="bpmInterval" ng-model="metro.practice.bpmInterval" ng-change="metro.createPraticeTempos()">
+				</div>
+			</div>
+
+			<div class="metronome__row--1-1">
+				<ul class="metronome__tempoList">
+					<li class="metronome__tempoItem" tempo="{{::tempo}}" ng-repeat="tempo in metro.practice.tempoItems" tempo-item>{{::tempo}}<span class="metronome__tempoItemLabel">BPM</span></li>
+				</ul>
+
+				<p class="metronome__bpmRefreshCntr" ng-show="metro.settings.tempoChange">
+					<a href="" class="metronome__bpmRefresh" ng-click="metro.refreshPraticeTempos()">
+						<svg class="metronome__bpmRefreshIcon" version="1.1" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+							<path d="M32 12h-12l4.485-4.485c-2.267-2.266-5.28-3.515-8.485-3.515s-6.219 1.248-8.485 3.515c-2.266 2.267-3.515 5.28-3.515 8.485s1.248 6.219 3.515 8.485c2.267 2.266 5.28 3.515 8.485 3.515s6.219-1.248 8.485-3.515c0.189-0.189 0.371-0.384 0.546-0.583l3.010 2.634c-2.933 3.349-7.239 5.464-12.041 5.464-8.837 0-16-7.163-16-16s7.163-16 16-16c4.418 0 8.418 1.791 11.313 4.687l4.687-4.687v12z"></path>
+						</svg>
+						Refresh Practice BPM intervals
+					</a>
+				</p>
+			</div>
+
+			<div class="metronome__row--1-1 grid">
+				<div class="metronome__row--1-1" ng-hide="metro.practice.on">
+					<play-pause type="start"></play-pause>
+				</div>
+
+				<div class="metronome__row--1-2" ng-hide="!metro.practice.on">
+					<play-pause type="stop"></play-pause>
+				</div>
+				<div class="metronome__row--1-2" ng-hide="!metro.practice.on">
+					<play-pause type="pause" ng-hide="metro.practice.paused"></play-pause>
+					<play-pause type="resume" ng-hide="!metro.practice.paused"></play-pause>
+				</div>
+				
+			</div>
+		</div>
+
+		
+	</form>
+
+
+</body>
+</html>

@@ -1,0 +1,489 @@
+.btn {
+  display: inline-block;
+  padding: 16px 18px;
+  color: #fff;
+  border-radius: 3px;
+  text-transform: uppercase;
+  margin: 0 auto;
+  text-align: center;
+  vertical-align: middle;
+  font-weight: bold;
+  cursor: pointer;
+  text-decoration: none; }
+
+a.btn:hover, a.btn:focus {
+  text-decoration: none; }
+
+a.btn.disabled, fieldset[disabled] a.btn {
+  pointer-events: none;
+  cursor: not-allowed; }
+
+.control-group.large .btn {
+  padding: 15px 20px; }
+
+.btn-small {
+  padding: 4px 9px;
+  font-size: 1.2rem; }
+
+.btn-large {
+  padding: 15px 80px;
+  font-size: 1.8rem; }
+
+.btn-first {
+  margin: 0; }
+
+.btn-full-width {
+  width: 100%;
+  padding-left: 0;
+  padding-right: 0; }
+
+.btn-transparent {
+  border: 1px solid #fff; }
+
+.btn-disabled, button[disabled] {
+  opacity: 0.2;
+  cursor: not-allowed; }
+
+.grey, .btn {
+  background-color: #666; }
+
+.blue, .btn-info {
+  background: #5bc0de; }
+
+.orange, .btn-warning {
+  background: #d35400; }
+
+.green, .btn-success {
+  background: #5cb85c; }
+
+.red, .btn-danger {
+  background: #d9534f; }
+
+.transparent, .btn-transparent {
+  background-color: transparent; }
+  .transparent.red-transparent, .btn-transparent.red-transparent {
+    border: 1px solid #d9534f;
+    color: #efb2b0;
+    background: rgba(217, 83, 79, 0.25); }
+  .transparent.green-transparent, .btn-transparent.green-transparent {
+    border: 1px solid #5cb85c;
+    color: #a3d4a3;
+    background: rgba(92, 184, 92, 0.25); }
+  .transparent.grey-transparent, .btn-transparent.grey-transparent {
+    border: 1px solid #999;
+    color: #eee;
+    background: rgba(102, 102, 102, 0.25); }
+
+html {
+  overflow-x: hidden;
+  font-size: 62.5%;
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  overflow-x: hidden;
+  line-height: 1.8;
+  font-family: "Lato",sans-serif;
+  background-color: #333; }
+
+/* ---------------------
+	Metronome Widget
+------------------------*/
+.metronome {
+  width: 100%;
+  max-width: 768px;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap; }
+  .metronome--hide {
+    display: none !important; }
+  .metronome__row, .metronome__row--1-1, .metronome__row--1-2, .metronome__row--1-3, .metronome__row--1-4, .metronome__row--1-5, .metronome__row--1-6, .metronome__row--1-7, .metronome__row--1-8, .metronome__row--1-9, .metronome__row--1-10, .metronome__row--2-10, .metronome__row--6-10, .metronome__row--7-10 {
+    float: left;
+    position: relative;
+    padding: 10px; }
+    .metronome__row--noPad {
+      padding: 0 !important; }
+    .metronome__row--border, .metronome__pitchControlRow--border {
+      border-bottom: 1px solid #555; }
+    .metronome__row--1-1 {
+      width: 100%; }
+    .metronome__row--1-2 {
+      width: 50%; }
+    .metronome__row--1-3 {
+      width: 33.3333333333%; }
+    .metronome__row--1-4 {
+      width: 25%; }
+    .metronome__row--1-5 {
+      width: 20%; }
+    .metronome__row--1-6 {
+      width: 16.6666666667%; }
+    .metronome__row--1-7 {
+      width: 14.2857142857%; }
+    .metronome__row--1-8 {
+      width: 12.5%; }
+    .metronome__row--1-9 {
+      width: 11.1111111111%; }
+    .metronome__row--1-10 {
+      width: 10%; }
+    .metronome__row--2-10 {
+      width: 20%; }
+    .metronome__row--6-10 {
+      width: 60%; }
+    .metronome__row--7-10 {
+      width: 70%; }
+    @media only screen and (min-width: 650px) {
+      .metronome__row--1-10-xl {
+        width: 10%; }
+      .metronome__row--7-10-xl {
+        width: 70%; } }
+  .metronome__header, .metronome__header--2, .metronome__header--3, .metronome__header--4 {
+    text-align: center;
+    width: 100%;
+    float: left;
+    font-size: 4rem;
+    color: #fff;
+    font-weight: lighter;
+    line-height: 1;
+    text-transform: uppercase;
+    letter-spacing: 1px; }
+    .metronome__header--2 {
+      font-size: 3rem;
+      margin: 20px 0 10px 0;
+      color: #fff; }
+    .metronome__header--3 {
+      font-size: 1.4rem;
+      margin: 10px 0;
+      color: #fff; }
+      @media only screen and (max-width: 400px) {
+        .metronome__header--3 {
+          font-size: 1.2rem; } }
+    .metronome__header--4 {
+      font-size: 5rem;
+      margin: 0 0 10px 0;
+      color: #999; }
+  .metronome__text {
+    font-size: 1.3rem;
+    color: #999;
+    text-align: center;
+    margin: 0 auto 20px auto;
+    width: 90%; }
+    @media only screen and (min-width: 650px) {
+      .metronome__text {
+        width: 70%; } }
+    @media only screen and (max-width: 400px) {
+      .metronome__text {
+        width: 100%;
+        padding: 0 10px; } }
+  .metronome__headerLabel {
+    font-size: 1.2rem;
+    color: #fff; }
+  .metronome__pitchControlRow {
+    float: left;
+    width: 100%;
+    min-height: 100px;
+    padding: 0 10px 20px 0; }
+  .metronome__pitchErrorMsg {
+    font-size: 2.4rem;
+    color: #fff;
+    text-align: center;
+    font-weight: lighter; }
+  .metronome__pitchControlCheckbox {
+    position: static;
+    left: -9999px;
+    float: left;
+    visibility: hidden; }
+    .metronome__pitchControlCheckbox[type="checkbox"]:not(:checked) + label:after, .metronome__pitchControlCheckbox[type="checkbox"]:checked + label:after {
+      content: "";
+      display: inline-block;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: #fff;
+      cursor: pointer;
+      position: relative;
+      box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.7); }
+      .metronome__pitchControlCheckbox[type="checkbox"]:not(:checked) + label:after:hover, .metronome__pitchControlCheckbox[type="checkbox"]:checked + label:after:hover {
+        animation: none; }
+    .metronome__pitchControlCheckbox--animate[type="checkbox"]:not(:checked) + label:after, .metronome__pitchControlCheckbox--animate[type="checkbox"]:checked + label:after {
+      -webkit-animation: pulse 0.35s cubic-bezier(0.66, 0, 0, 1);
+      -moz-animation: pulse 0.35s cubic-bezier(0.66, 0, 0, 1);
+      -ms-animation: pulse 0.35s cubic-bezier(0.66, 0, 0, 1);
+      animation: pulse 0.35s cubic-bezier(0.66, 0, 0, 1); }
+    .metronome__pitchControlCheckbox[type="checkbox"]:checked + label:after {
+      background: #e74c3c;
+      box-shadow: 0 0 0 0 rgba(232, 76, 61, 0.7); }
+  .metronome__pitchControl {
+    text-align: center;
+    position: relative;
+    cursor: pointer;
+    float: left;
+    width: 100%; }
+    .metronome__pitchControl--disabled:after {
+      background: #555 !important;
+      box-shadow: none !important; }
+  .metronome__play {
+    width: 0;
+    height: 0;
+    border-top: 30px solid transparent;
+    border-left: 50px solid #fff;
+    border-bottom: 30px solid transparent;
+    display: block;
+    text-align: center; }
+  .metronome__pause {
+    display: inline-block;
+    border-left: 10px solid #fff;
+    padding: 27px;
+    position: relative; }
+    .metronome__pause::after {
+      content: "";
+      position: absolute;
+      height: 100%;
+      border-right: 10px solid #fff;
+      top: 0; }
+  .metronome__input {
+    padding: 15px 5px;
+    border-radius: 4px;
+    border: none;
+    width: 100%;
+    font-size: 2.4rem;
+    line-height: 1;
+    text-align: center;
+    color: #fff;
+    background-color: #444;
+    font-weight: lighter; }
+    @media only screen and (max-width: 400px) {
+      .metronome__input {
+        font-size: 1.6rem; } }
+    .metronome__input[disabled] {
+      cursor: not-allowed; }
+  .metronome__inputRange {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 54px;
+    background: #333; }
+    .metronome__inputRange:focus {
+      outline: none; }
+    .metronome__inputRange::-webkit-slider-runnable-track {
+      width: 100%;
+      height: 5px;
+      cursor: pointer;
+      animate: 0.2s;
+      box-shadow: 0px 0px 0px #000000, 0px 0px 0px #0d0d0d;
+      background: #777;
+      border-radius: 5px;
+      border: 0px solid #000101; }
+    .metronome__inputRange::-webkit-slider-thumb {
+      box-shadow: 0px 0px 0px #000000, 0px 0px 0px #0d0d0d;
+      border: 0px solid #000000;
+      height: 20px;
+      width: 20px;
+      border-radius: 10px;
+      background: #2980b9;
+      cursor: pointer;
+      -webkit-appearance: none;
+      margin-top: -8px; }
+    .metronome__inputRange:focus::-webkit-slider-runnable-track {
+      background: #444; }
+    .metronome__inputRange::-moz-range-track {
+      width: 100%;
+      height: 5px;
+      cursor: pointer;
+      animate: 0.2s;
+      box-shadow: 0px 0px 0px #000000, 0px 0px 0px #0d0d0d;
+      background: #777;
+      border-radius: 5px;
+      border: 0px solid #000101; }
+    .metronome__inputRange::-moz-range-thumb {
+      box-shadow: 0px 0px 0px #000000, 0px 0px 0px #0d0d0d;
+      border: 0px solid #000000;
+      height: 20px;
+      width: 20px;
+      border-radius: 10px;
+      background: #2980b9;
+      cursor: pointer;
+      -webkit-appearance: none;
+      margin-top: -8px; }
+    .metronome__inputRange::-ms-track {
+      width: 100%;
+      height: 5px;
+      cursor: pointer;
+      animate: 0.2s;
+      box-shadow: 0px 0px 0px #000000, 0px 0px 0px #0d0d0d;
+      background: #777;
+      border-radius: 5px;
+      background: transparent;
+      border-color: transparent;
+      border-width: 20px 0;
+      color: transparent; }
+    .metronome__inputRange::-ms-fill-lower {
+      background: #777;
+      border: 0px solid #000101;
+      border-radius: 5px;
+      box-shadow: 0px 0px 0px #000000, 0px 0px 0px #0d0d0d; }
+    .metronome__inputRange::-ms-fill-upper {
+      background: #777;
+      border: 0px solid #000101;
+      border-radius: 5px;
+      box-shadow: 0px 0px 0px #000000, 0px 0px 0px #0d0d0d; }
+    .metronome__inputRange::-ms-thumb {
+      box-shadow: 0px 0px 0px #000000, 0px 0px 0px #0d0d0d;
+      border: 0px solid #000000;
+      height: 20px;
+      width: 20px;
+      border-radius: 10px;
+      background: #2980b9;
+      cursor: pointer; }
+    .metronome__inputRange:focus::-ms-fill-lower {
+      background: #777; }
+    .metronome__inputRange:focus::-ms-fill-upper {
+      background: #777; }
+  .metronome__label {
+    color: #fff;
+    width: 100%;
+    text-align: center;
+    font-size: 1.2rem;
+    display: block;
+    font-weight: lighter;
+    text-transform: uppercase; }
+    @media only screen and (max-width: 400px) {
+      .metronome__label {
+        font-size: 0.9rem; } }
+  .metronome__timeSignatureSpacer {
+    width: 100%;
+    border: 0;
+    height: 1px;
+    background: #999;
+    margin: 20px 0; }
+  .metronome__timeSignature {
+    text-align: center;
+    font-size: 7rem;
+    display: block;
+    line-height: .9;
+    color: #e74c3c;
+    font-weight: lighter; }
+  .metronome__noteLink {
+    display: block;
+    text-align: center;
+    margin: 0 auto; }
+  .metronome__noteLink--active {
+    background-color: #2b2b2b;
+    border-radius: 4px;
+    width: 100%;
+    box-shadow: 1px 3px 0px 1px #222 inset; }
+  .metronome__note {
+    height: 100px;
+    padding: 25px 0; }
+    @media only screen and (max-width: 400px) {
+      .metronome__note {
+        height: 90px;
+        padding: 30px 0; } }
+  .metronome__tempoMark {
+    font-size: 1.4rem;
+    text-align: center;
+    color: #ccc;
+    padding: 0 0 10px 0;
+    margin: 10px 0;
+    font-style: italic;
+    line-height: 1;
+    width: 100%;
+    text-transform: uppercase; }
+  .metronome__tempoList {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    min-height: 60px; }
+  .metronome__tempoItem {
+    display: inline-block;
+    color: #777;
+    font-size: 3rem;
+    margin-right: 40px; }
+    @media only screen and (max-width: 400px) {
+      .metronome__tempoItem {
+        margin-right: 20px; } }
+    .metronome__tempoItem:last-of-type {
+      margin-right: 0; }
+    .metronome__tempoItem--active {
+      color: #fff; }
+  .metronome__tempoItemLabel {
+    font-size: 0.6rem;
+    margin-left: 3px; }
+  .metronome__praticeBtnCntr {
+    text-align: center; }
+  .metronome__bpmRefreshCntr {
+    text-align: center;
+    margin: 0; }
+  .metronome__bpmRefresh {
+    color: #5bc0de;
+    text-transform: uppercase;
+    font-size: 1.1rem;
+    text-decoration: none;
+    position: relative;
+    padding-left: 30px; }
+  .metronome__bpmRefreshIcon {
+    fill: #5bc0de;
+    position: absolute;
+    height: 12px;
+    left: 0;
+    top: 0px; }
+
+[data-tip] {
+  position: relative; }
+
+[data-tip]:before {
+  content: '';
+  /* hides the tooltip when not hovered */
+  display: none;
+  content: '';
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-bottom: 5px solid #1a1a1a;
+  position: absolute;
+  top: 30px;
+  left: 35px;
+  z-index: 8;
+  font-size: 0;
+  line-height: 0;
+  width: 0;
+  height: 0; }
+
+[data-tip]:after {
+  display: none;
+  content: attr(data-tip);
+  position: absolute;
+  top: 35px;
+  left: 0px;
+  padding: 5px 8px;
+  background: #1a1a1a;
+  color: #fff;
+  z-index: 9;
+  font-size: 0.75em;
+  height: 18px;
+  line-height: 18px;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  white-space: nowrap;
+  word-wrap: normal; }
+
+[data-tip]:hover:before,
+[data-tip]:hover:after {
+  display: block; }
+
+@-webkit-keyframes pulse {
+  to {
+    box-shadow: 0 0 0 25px rgba(232, 76, 61, 0); } }
+@-moz-keyframes pulse {
+  to {
+    box-shadow: 0 0 0 25px rgba(232, 76, 61, 0); } }
+@-ms-keyframes pulse {
+  to {
+    box-shadow: 0 0 0 25px rgba(232, 76, 61, 0); } }
+@keyframes pulse {
+  to {
+    box-shadow: 0 0 0 25px rgba(232, 76, 61, 0); } }
+.metronome *, .metronome *:after, .metronome *:before {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box; }

@@ -1,0 +1,99 @@
+.btn{
+  display: inline-block;
+  padding: 16px 18px;
+  color: #fff;
+  border-radius: $standard-border-radius;
+  text-transform: uppercase;
+  margin: 0 auto;
+  text-align: center;
+  vertical-align: middle;
+  font-weight: $btn-font-weight;
+  cursor: pointer;
+  text-decoration: none;
+}
+  
+a.btn:hover,a.btn:focus {
+  text-decoration: none;
+}
+
+a.btn {
+  &.disabled,
+  fieldset[disabled] & {
+    pointer-events: none;
+    cursor: not-allowed;
+  }
+}
+
+.control-group.large .btn{
+  padding: 15px 20px;
+}
+
+.btn-small{
+  padding:4px 9px; 
+  font-size: $font-size-small
+}
+
+.btn-large{
+  padding:15px 80px;
+  font-size: $font-size-large
+}
+
+.btn-first{
+  margin:0;
+}
+
+.btn-full-width{
+  width: 100%;
+  padding-left:0;
+  padding-right:0;
+}
+.btn-transparent{
+  border: 1px solid #fff
+}
+
+.btn-disabled, button[disabled]{
+    opacity: 0.2;
+    cursor: not-allowed;
+}
+
+// colors
+.grey, .btn{
+  background-color: #666
+}
+.blue, .btn-info{
+  background: $brand-info;
+}
+.orange, .btn-warning{
+  background: $brand-warning;
+}
+.green, .btn-success{
+  background: $brand-success;
+}
+.red, .btn-danger{
+  background: $brand-danger;
+}
+
+.transparent, .btn-transparent{
+  background-color: transparent;
+
+  &.red-transparent{
+    border: 1px solid $brand-danger;
+    color: #efb2b0;
+    background: rgba(217, 83, 79, 0.25);
+  }
+
+  &.green-transparent{
+    border: 1px solid $brand-success;
+    color: #a3d4a3;
+    background: rgba(92, 184, 92, 0.25);
+  }
+
+  &.grey-transparent{
+    border: 1px solid #999;
+    color: #eee;
+    background: rgba(102, 102, 102, 0.25);
+  }
+
+}
+
+
