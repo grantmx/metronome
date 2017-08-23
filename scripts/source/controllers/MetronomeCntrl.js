@@ -3,9 +3,11 @@
 ----------------------------------*/
 (function (METRO, angular){
     
-    function MetronomeCntrl ($scope, $timeout, $document, $rootScope, utilityService, config, audioService){
-        var n, bar, currentNumerator, files = {}, timeSequence = {}, visibilityChange, wasPlaying, practiceIndex;
+    function MetronomeCntrl ($scope, $timeout, $document, $rootScope, utilityService, config, audioService, settingsService){
+        var n, bar, currentNumerator, files = {}, timeSequence = {}, visibilityChange, wasPlaying, practiceIndex, hasSavedSettings;
         
+        this_$scope = $scope;
+
         this.channels = audioService.createAudio();
         this.beatIntervalTimeout = null;
         this.accentInterval = null;
@@ -52,8 +54,38 @@
 
 
 
+
+
+        /* Auto Saves Users settings
+        ------------------------------------- */
+        function saveSettings(event, data){
+            settingsService.save(data);
+            hasSavedSettings = false;
+        }
+
+        this_$scope.$on("savedSettings", saveSettings);
+
+
+
+        // restores users last settings (for a given page)
+        this.getSettings = function(){
+            var storageData = settingsService.restore();
+
+            if ( storageData ){
+                storageData = JSON.parse(storageData);
+                this.practice = storageData.practice;
+                this.settings = storageData.settings;
+            }
+
+            hasSavedSettings = (storageData !== null);
+        };
+
+        this.getSettings();
+
+
+
         /* Start & Stop Controls
-         ------------------------------------- */
+        ------------------------------------- */
         this.start = function() {
             this.settings.on = true;
             bar = currentNumerator = n = 1;
@@ -75,17 +107,17 @@
         --------------------------------------------------------------- */
         audioService.visibilityChangeSupport();
 
-        function handleTabChange(event, data){
+        this.handleTabChange = function(event, data){
             if (data === "stop" && $scope.metro.settings.on){
-                $scope.metro.stop();
+                this_$scope.metro.stop();
                 wasPlaying = true;
 
             }else if (data === "play" && wasPlaying){
-                $scope.metro.start();
+                this_$scope.metro.start();
             }
-        }
+        };
 
-        $scope.$on("tabVisibilityChange", handleTabChange);
+        this_$scope.$on("tabVisibilityChange", this.handleTabChange);
 
         
 
@@ -93,8 +125,12 @@
         /* updates the tempo mark name UI
         ----------------------------------------- */
         this.updateTempo = function(){
+            this.settings.beatsperminute = this.settings.beatsperminute < 50 ? 50 : (this.settings.beatsperminute > 300 ? 300 : this.settings.beatsperminute);
+
             this.settings.tempoMark = audioService.tempo(this.settings.beatsperminute);
             this.settings.tempoChange = true;
+
+            this.createPraticeTempos();
         };
 
 
@@ -196,8 +232,8 @@
 
         // triggers on-going clicks based on rate and tempo
         this.triggerClick = function(){
-            var settings = $scope.metro.settings, rate,
-                timeTracker = $scope.metro.timeTracker,
+            var settings = this_$scope.metro.settings, rate,
+                timeTracker = this_$scope.metro.timeTracker,
                 index = currentNumerator - 1,
                 pitchControl = $scope.metro.pitchControlItems[index];
 
@@ -209,7 +245,7 @@
                 timeTracker.bar = utilityService.leadingZero(bar, 4);
                 timeTracker.beat = utilityService.leadingZero(currentNumerator, 2);
                 
-                $scope.$apply();
+                this_$scope.$apply();
 
                 // determines which file to play
                 audioService.playSoundSequence(pitchControl, settings, n);
@@ -233,7 +269,7 @@
 
 
                 // sets the repeat of the clicks based on the specified rate
-                this.beatIntervalTimeout = $timeout($scope.metro.triggerClick, 60000 / rate);
+                this.beatIntervalTimeout = $timeout(this_$scope.metro.triggerClick, 60000 / rate);
             }
 
             return this;
@@ -273,7 +309,7 @@
 
             // beat is 1/2, 1/3 or 1/4 a note
             updateBeat: function(noteDivision){
-                if(n < $scope.metro.settings.timeNumerator * noteDivision){
+                if(n < this_$scope.metro.settings.timeNumerator * noteDivision){
                     if(n % noteDivision === 0){
                         currentNumerator += 1;
                     }
@@ -306,6 +342,16 @@
             }
 
             this.settings.tempoChange = false;
+
+
+            // if true switch to false to save new settings
+            if ( hasSavedSettings ){
+                hasSavedSettings = false;
+
+            }else{
+                this_$scope.$broadcast("savedSettings", {practice: this.practice, settings: this.settings});
+            }
+
          };
 
         this.createPraticeTempos();
@@ -313,36 +359,45 @@
 
 
         // tracks the tempo progression through the session and updates the models
-        function tempoProgression(){
-            var settings = $scope.metro.settings,
-                practice = $scope.metro.practice;
+        this.tempoProgression = function(){
+            var settings = this_$scope.metro.settings,
+                practice = this_$scope.metro.practice;
 
             practiceIndex = (practiceIndex === (practice.tempos - 1)) ? 0 : practice.tempoIndex + 1;
 
             settings.beatsperminute = practice.tempoItems[practiceIndex];
             practice.tempoIndex = (practiceIndex === practice.tempos) ? 0 : practiceIndex;
 
-            $scope.metro.updateTempo();
+            this_$scope.metro.updateTempo();
             settings.tempoChange = false;
-        }
+        };
 
-        $scope.$on("timerProgression", tempoProgression);
+        this_$scope.$on("timerProgression", this.tempoProgression);
 
 
 
         // reset tempo progression models and update the view with the modified tempo progression
         this.refreshPraticeTempos = function(){
             practiceIndex = undefined;
-            $scope.metro.practice.tempoIndex = 0;
+            this_$scope.metro.practice.tempoIndex = 0;
 
             this.createPraticeTempos();
         };
 
 
+
+
+
+
     }
 
 
-    MetronomeCntrl.$inject = ["$scope", "$timeout", "$document", "$rootScope", "utilityService", "config", "audioService"];
+
+
+
+
+
+    MetronomeCntrl.$inject = ["$scope", "$timeout", "$document", "$rootScope", "utilityService", "config", "audioService", "settingsService"];
 
 
     angular

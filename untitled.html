@@ -1,0 +1,357 @@
+
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="Description" content="Practice your rhythmic timing with this online metronome.">
+    <title>HTML5 Metronome</title>
+    <style type="text/css">
+        @font-face {
+            font-family: 'Museo';
+            src: url('/fonts/Museo300-Regular-webfont.eot');
+            src: url('/fonts/Museo300-Regular-webfont.eot?#iefix') format('embedded-opentype'),
+                url('/fonts/Museo300-Regular-webfont.woff') format('woff'),
+                url('/fonts/Museo300-Regular-webfont.ttf') format('truetype'),
+                url('/fonts/Museo300-Regular-webfont.svg#Museo300') format('svg');
+            font-weight: normal;
+            font-style: normal;
+        }
+        @font-face {
+            font-family: 'Banda';
+            src: url('/fonts/Banda_regular-webfont.eot');
+            src: url('/fonts/Banda_regular-webfont.eot?#iefix') format('embedded-opentype'),
+                url('/fonts/Banda_regular-webfont.woff') format('woff'),
+                url('/fonts/Banda_regular-webfont.ttf') format('truetype'),
+                url('/fonts/Banda_regular-webfont.svg#BandaRegular') format('svg');
+            font-weight: normal;
+            font-style: normal;
+        }
+        @font-face {
+            font-family: 'Merge';
+            src: url('/fonts/merge_light-webfont.eot');
+            src: url('/fonts/merge_light-webfont.eot?#iefix') format('embedded-opentype'),
+                url('/fonts/merge_light-webfont.woff') format('woff'),
+                url('/fonts/merge_light-webfont.ttf') format('truetype'),
+                url('/fonts/merge_light-webfont.svg#MergeLight') format('svg');
+            font-weight: normal;
+            font-style: normal;
+        }
+        /* CSS Reset */
+        body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,textarea,p,blockquote,th,td {
+            margin: 0;
+            padding: 0;
+        }
+        h1,h2,h3,h4,h5,h6 {
+            color: #cccccc;
+            font-size: 100%;
+            font-weight: normal;
+        }
+        h1 {
+            /*18px*/
+            font-size: 138.5%;
+        }
+        h2 {
+            /*16px*/
+            font-size: 123.1%;
+        }
+        h3 {
+            /*14px*/
+            font-size: 108%;
+        }
+        h1,h2,h3 {
+            /* top & bottom margin based on font size */
+            margin: 0.5em 0;
+        }
+        h1,h2,h3,h4,h5,h6,strong {
+            font-weight: bold;
+        }
+        input,textarea,select {
+            font-family: inherit;
+            font-size: inherit;
+            font-weight: inherit;
+        }
+        /*to enable resizing for IE*/
+        input,textarea,select {
+            #font-size: 100%;
+        }
+        body {
+            background-color: #333333;
+            color: #0099cc;
+            font-family: "Banda", Georgia, serif;
+            font-size: 0.9em;
+            text-align: center;
+        }
+        button {
+            background-color: #cccccc;
+            color: #000000;
+        }
+        #bars,#beats {
+            font-size: 2em;
+            position: relative;
+            top: 25px;
+        }
+        #bars {
+            left: -82px;
+        }
+        #beats {
+            left: 200px;
+        }
+        #metronome {
+            color: #cccccc;
+            font-family: "Museo", Verdana, Geneva, sans-serif;
+            font-size: 12em;
+            text-align: center;
+        }
+        #temponame {
+            font-size: 2em;
+            padding-bottom: 10px;
+        }
+        #toggle {
+            margin-right: 25px;
+        }
+        #toggle,#tap {
+            border-radius: 4px;
+            padding: 4px;
+        }
+        #metrooptions {
+            margin: 0 auto;
+            padding: 20px 0;
+            text-align: right;
+            width: 170px;
+        }
+        #tempo,#timesig,#doubletempo,#sound {
+            display: block;
+        }
+        #bpm,#numerator,#denominator {
+            width: 25px;
+        }
+        #notice, #bugfeedback {
+            font-family: "Merge", Georgia, serif;
+        }
+        #notice {
+            font-size: 1.1em;
+            font-weight: bold;
+        }
+        #bugfeedback {
+            color: #ff3366;
+            padding: 10px 0;
+        }
+        #bugfeedbackresponse {
+            color: #ff3366;
+            display: none;
+        }
+        #bug,#feedback {
+            color: #ff3366;
+        }
+        #bug:hover,#feedback:hover {
+            color: #cc0033;
+        }
+        #bug_cont,#feedback_cont {
+            background-color: #ffffff;
+            border: 4px solid #ff3366;
+            border-radius: 4px;
+            display: none;
+            left: 40%;
+            height: 200px;
+            padding: 10px;
+            position: absolute;
+            top: 35%;
+            width: 250px;
+        }
+        .title {
+            color: #000000;
+            text-align: left;
+        }
+        .response {
+            display: block;
+            font-family: Georgia, serif;
+            font-size: 0.9em;
+            height: 145px;
+            width: 100%;
+        }
+        .result {
+            color: #cc0033;
+        }
+        .site_tag {
+            font-family: "Merge", Georgia, serif;
+        }
+        .site_tag > .site_designer {
+            /*background-color: #ff0000;*/
+            color: #ffffff;
+            text-decoration: none;
+        }
+        .site_tag > .site_designer:hover {
+            background-color: #ff3366;
+            text-decoration: none;
+        }
+    </style>
+    <script type="text/javascript" src="scripts/lib/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript">// var Metronome=(function(){var i,channels=[],canPlayOgg=false,canPlayMp3=false,supportedExtension='mp3',mediaDir='/sfx/click/',accentFile=mediaDir+'Accent.',clickFile=mediaDir+'Click.',halfClickFile=mediaDir+'Half-Click.',timeout,beatsperminute=120,bar,currentNumerator,n,queued=false,scriptInitTime=new Date();function getScriptRunTime(){var current=new Date(),diff=current.getTime()-scriptInitTime.getTime();return(diff/1000)}function leadingZero(number,digits){number+='';if(number.length<digits){digits=digits-number.length;var l=0,prefix='';while(l<digits){prefix+='0';l+=1}number=prefix+number}return number}function preloadAudio(){var j,k,loaded=0,total=arguments.length-1,success,complete=function(){loaded+=1;if(success&&loaded===total){success.apply(this)}};try{if(arguments.length>0&&typeof arguments[arguments.length-1]==='function'){success=arguments[arguments.length-1]}for(j=0;j<arguments.length;j+=1){if(typeof arguments[j]==='string'){for(k=0;k<channels.length;k+=1){if(channels[k].networkState===0||channels[k].ended===true){if(channels[k].src===''){channels[k].src=arguments[j];channels[k].addEventListener('canplaythrough',complete,false);channels[k].load();break}else if(channels[k].src.indexOf(arguments[j])!==-1){break}}}}}}catch(err){if(Metronome.error&&typeof Metronome.error==='function'){Metronome.error.apply(this,[err,getScriptRunTime()])}}return k}function play(audio){var l=preloadAudio(audio);if(l&&l<channels.length){channels[l].play()}}try{for(i=0;i<25;i+=1){if(typeof Audio!=='undefined'){channels[i]=new Audio()}else{channels[i]=document.createElement('audio')}}if(channels[0].canPlayType){if(channels[0].canPlayType('audio/ogg')!=='no'&&channels[0].canPlayType('audio/ogg')!==''){canPlayOgg=true}else{canPlayOgg=false}if(channels[0].canPlayType('audio/mpeg')!=='no'&&channels[0].canPlayType('audio/mpeg')!==''){canPlayMp3=true}else{canPlayMp3=false}if(canPlayOgg===true){supportedExtension='ogg'}else if(canPlayMp3===true){supportedExtension='mp3'}}preloadAudio(clickFile+supportedExtension,accentFile+supportedExtension,halfClickFile+supportedExtension,function(){Metronome.start()})}catch(err){channels=[];if(Metronome.error&&typeof Metronome.error==='function'){Metronome.error.apply(this,[err,getScriptRunTime()])}}function toggleDoubleTempo(){this.doubleTempo=!this.doubleTempo;if(this.doubleTempo===true){n=(currentNumerator*2)-1}else{if(n%2===1){n=currentNumerator}else{queued=true}}}function millisecondsToBpm(milliseconds){var bpm=Math.round(60000/milliseconds);return bpm}function start(){this.on=true;bar=currentNumerator=n=1;this.click()}function stop(){this.on=false}function toggle(){if(this.on===true){this.stop()}else{this.start()}}function click(){try{if(Metronome.on===true){var rate=beatsperminute;if(Metronome.doubleTempo===true||queued===true){rate=rate*2;queued=false}if(Metronome.element){Metronome.element.innerHTML=leadingZero(bar,4)+'.'+leadingZero(currentNumerator,2)}if(Metronome.sound===true){if(currentNumerator===1&&n===1){play(accentFile+supportedExtension)}else if(Metronome.doubleTempo===true&&n%2===0){play(halfClickFile+supportedExtension)}else{play(clickFile+supportedExtension)}}if((Metronome.doubleTempo===false&&currentNumerator<Metronome.timeNumerator)||(Metronome.doubleTempo===true&&n<Metronome.timeNumerator*2)){if(Metronome.doubleTempo===false||(Metronome.doubleTempo===true&&n%2===0)){currentNumerator+=1}n+=1}else{bar+=1;currentNumerator=n=1}timeout=setTimeout(Metronome.click,60000/rate)}}catch(err){if(Metronome.error&&typeof Metronome.error==='function'){Metronome.error.apply(this,[err,getScriptRunTime()])}}}function bpm(b){if(b&&typeof b==='number'){if(b!==beatsperminute){beatsperminute=b;clearTimeout(timeout);this.click()}}else{return beatsperminute}}function tempo(){if(beatsperminute<=20){return'Larghissimo'}else if(beatsperminute<=40){return'Grave'}else if(beatsperminute<=60){return'Lento/Largo'}else if(beatsperminute<=66){return'Larghetto'}else if(beatsperminute<=76){return'Adagio'}else if(beatsperminute<=80){return'Adagietto'}else if(beatsperminute<=108){return'Andante'}else if(beatsperminute<=110){return'Moderato'}else if(beatsperminute<=112){return'Allegretto'}else if(beatsperminute<=124){return'Allegro moderato'}else if(beatsperminute<=139){return'Allegro'}else if(beatsperminute<=168){return'Vivace'}else if(beatsperminute<=200){return'Presto'}else if(beatsperminute>200){return'Prestissimo'}}return{element:null,bpm:bpm,millisecondsToBpm:millisecondsToBpm,tempo:tempo,timeDenominator:4,timeNumerator:4,sound:true,doubleTempo:false,toggleDoubleTempo:toggleDoubleTempo,click:click,start:start,stop:stop,toggle:toggle,error:null,on:false}}());</script>
+    <script type="text/javascript" src="scripts/source/metronome-orginal.js"></script>
+    <script type="text/javascript">
+
+        function toInteger(value) {
+            value = +value;
+            if(typeof value !== 'number' || isNaN(value)) {
+                return null;
+            } else {
+                return value;
+            }
+        }
+
+
+        $(document).ready(function() {
+        
+            var $tempo = $("#temponame"),
+                $bpm = $("#bpm"),
+                $numer = $("#numerator"),
+                $denom = $("#denominator"),
+                $double = $("#double"),
+                $mute = $("#mute");
+            
+            Metronome.element = document.getElementById('metronome');
+            
+            Metronome.error = function (error, runtime) {
+                var etype = '', stack = '';
+                
+                if (error.name) {
+                    etype = error.name;
+                }
+                
+                if (error.stack) {
+                    stack = error.stack;
+                }
+
+                $.ajax({
+                    url: "/scripts/exceptions.php?uri=" + escape(location.href) + "&message=" + escape(error.message) + "&type=" + escape(etype) + "&stack=" + escape(stack) + "&runtime=" + escape(runtime)
+                });
+            };
+
+            $tempo[0].innerHTML = Metronome.tempo();
+            $bpm[0].value = Metronome.bpm();
+            $numer[0].value = Metronome.timeNumerator;
+            $denom[0].value = Metronome.timeDenominator;
+            $double[0].checked = Metronome.doubleTempo;
+            $mute[0].checked = !Metronome.sound;
+            
+            $("#toggle").click(function() {
+                Metronome.toggle();
+
+                if(Metronome.on === true) {
+                    this.innerHTML = "Stop Click";
+                } else {
+                    this.innerHTML = "Start Click";
+                }
+            });
+            
+            var tapMilliseconds, tapOn = false;
+            
+            $("#tap").click(function(event) {
+                if(Metronome.on === true) {
+                    Metronome.stop();
+                    $("#toggle")[0].innerHTML = "Start Click";
+                    this.innerHTML = "Tap In Quarter Notes When Ready";
+                } else {
+                    if(tapOn === false) {
+                        tapMilliseconds = event.timeStamp;
+                        tapOn = true;
+                    } else {
+                        tapMilliseconds = event.timeStamp - tapMilliseconds;
+                        Metronome.bpm(Metronome.millisecondsToBpm(tapMilliseconds));
+                        $bpm[0].value = Metronome.bpm();
+                        $tempo[0].innerHTML = Metronome.tempo();
+                        tapOn = false;
+                    }
+                }
+            });
+
+            $bpm.keyup(function(event) {
+                var bpm = toInteger(this.value);
+                if(bpm !== null && bpm > 0 && bpm <= 400) {
+                    if(event.keyCode === 38) {
+                        // The up arrow key was pressed, increment the bpm by one
+                        bpm += 1;
+                    } else if(event.keyCode === 40) {
+                        // The down arrow key was pressed, decrement the bpm by one
+                        bpm -= 1;
+                    }
+                    Metronome.bpm(bpm);
+                    this.value = bpm;
+                    $tempo[0].innerHTML = Metronome.tempo();
+                }
+            });
+
+            $numer.keyup(function(event) {
+                var num = toInteger(this.value);
+                if(num !== null) {
+                    if(event.keyCode === 38) {
+                        // The up arrow key was pressed, increment the numerator by one
+                        num += 1;
+                    } else if(event.keyCode === 40) {
+                        // The down arrow key was pressed, decrement the numerator by one
+                        num -= 1;
+                    }
+                    Metronome.timeNumerator = num;
+                    this.value = num;
+                }
+            });
+
+            $denom.keyup(function(event) {
+                var num = toInteger(this.value);
+                if(num !== null) {
+                    if(event.keyCode === 38) {
+                        // The up arrow key was pressed, increment the denominator by one
+                        num += 1;
+                    } else if(event.keyCode === 40) {
+                        // The down arrow key was pressed, decrement the denominator by one
+                        num -= 1;
+                    }
+                    Metronome.timeDenominator = num;
+                    this.value = num;
+                }
+            });
+
+            $double.click(function() {
+                Metronome.toggleDoubleTempo();
+            });
+
+            $mute.click(function() {
+                Metronome.sound = !this.checked;
+            });
+
+        });
+    </script>
+</head>
+<body>
+
+    <h1>html5 metronome</h1>
+    <span id="bars">bar</span><span id="beats">beat</span>
+    <div id="metronome">0001.01</div>
+    <div id="temponame">Allegro moderato</div>
+    <button id="toggle" type="button" autofocus="autofocus">Stop Click</button><button id="tap" type="button">Tap In Tempo</button>
+    <div id="metrooptions">
+        <span id="tempo"><label for="bpm">beats per minute: </label><input type="text" id="bpm" /></span>
+        <span id="timesig"><label for="numerator">time signature: </label><input type="text" id="numerator" /> / <input type="text" id="denominator" /></span>
+        <span id="doubletempo"><label for="double">double tempo: </label><input type="checkbox" id="double" /></span>
+        <span id="sound"><label for="mute">mute: </label><input type="checkbox" id="mute" /></span>
+    </div>
+    <span id="notice">This is a non-flash online metronome built using javascript and HTML5 technologies.</span>
+    <div id="bugfeedback"><a href="#" id="bug" onclick="return false;">report a bug</a> | <a href="#" id="feedback" onclick="return false;">feedback</a></div>
+    <div id="bugfeedbackresponse"></div>
+    <div id="bug_cont">
+        <h4 class="title">report a bug</h4>
+        <textarea class="response"></textarea>
+        <a href="#" class="submit" onclick="return false;">submit</a> | <a href="#" class="cancel" onclick="return false;">cancel</a>
+        <p class="result"></p>
+    </div>
+    <div id="feedback_cont">
+        <h4 class="title">feedback</h4>
+        <textarea class="response"></textarea>
+        <a href="#" class="submit" onclick="return false;">submit</a> | <a href="#" class="cancel" onclick="return false;">cancel</a>
+        <p class="result"></p>
+    </div>
+    <div class="site_tag">site created by <a href="/" class="site_designer">james stegall</a></div>
+
+
+</body>
+</html>

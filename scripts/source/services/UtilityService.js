@@ -117,6 +117,7 @@
             $("#pitchControl_" + id).removeClass('metronome__pitchControlCheckbox--animate');
         }
 
+
     }
 
 

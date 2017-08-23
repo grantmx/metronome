@@ -413,7 +413,8 @@ body {
     text-align: center; }
   .metronome__bpmRefreshCntr {
     text-align: center;
-    margin: 0; }
+    margin: 0;
+    height: 20px; }
   .metronome__bpmRefresh {
     color: #5bc0de;
     text-transform: uppercase;

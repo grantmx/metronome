@@ -7,7 +7,8 @@
     functionality enhanced by Sevengage, Inc.
 -----------------------------------------------------*/
 
-var METRO = METRO || {};
+var METRO = METRO || {},
+    DRUM = DRUM || {};
     
 // global module declaration and constants
 angular
@@ -27,9 +28,13 @@ angular
 // @codekit-append "services/UtilityService.js";
 // @codekit-append "services/AudioService.js";
 // @codekit-append "services/CountDownService.js";
+// @codekit-append "services/storageService.js";
+// @codekit-append "services/saveSettingService.js";
+
 
 // @codekit-append "directives/playPauseDirective.js";
 // @codekit-append "directives/subDivisionNotesDirective.js";
 // @codekit-append "directives/pitchControlDirective.js";
 // @codekit-append "directives/countDownDirective.js";
 // @codekit-append "directives/tempoItemDirective.js";
+// @codekit-append "directives/onLastRepeat.js";
